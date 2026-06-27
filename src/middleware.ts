@@ -1,7 +1,10 @@
-export const runtime = 'nodejs';  
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+export const config = {
+  runtime: 'nodejs',      // forces Node.js (default is 'edge')
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+};
 
 export default async function middleware(req: NextRequest) {
   const isProtectedRoute =
