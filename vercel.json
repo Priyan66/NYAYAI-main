@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "src/middleware.ts": {
-      "runtime": "nodejs@20.x"
-    }
-  }
-}
