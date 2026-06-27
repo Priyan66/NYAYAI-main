@@ -45,6 +45,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   session: { strategy: 'jwt' },
   callbacks: {
+    authorized({ auth, request }) {
+      const isProtectedRoute =
+        request.nextUrl.pathname.startsWith('/dashboard') ||
+        request.nextUrl.pathname.startsWith('/fight') ||
+        request.nextUrl.pathname.startsWith('/score') ||
+        request.nextUrl.pathname.startsWith('/history') ||
+        request.nextUrl.pathname.startsWith('/settings');
+
+      if (isProtectedRoute && !auth?.user) {
+        return Response.redirect(new URL('/login', request.url));
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) token.id = user.id;
       return token;
