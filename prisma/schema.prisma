@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String?
+  language     String      @default("en")
+  passwordHash String?
+  googleId     String?     @unique
+  createdAt    DateTime    @default(now())
+  disputes     Dispute[]
+  nyayScores   NyayScore[]
+}
+
+model Dispute {
+  id                  String   @id @default(cuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id])
+  status              String   @default("intake")
+  originalInput       String
+  originalLanguage    String
+  disputeRecord       String
+  legalNotice         String?
+  forumComplaint      String?
+  evidenceChecklist   String?
+  coachingSummary     String?
+  revisedNotice       String?
+  revisedComplaint    String?
+  adversarialCritique String?
+  revisionCount       Int      @default(0)
+  successProbability  Float?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model NyayScore {
+  id                  String   @id @default(cuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id])
+  totalScore          Int
+  contractSafety      Int
+  tenancyProtection   Int
+  employmentSecurity  Int
+  consumerRights      Int
+  digitalRights       Int
+  familyDocumentation Int
+  uploadedDocuments   String
+  actionItems         String
+  createdAt           DateTime @default(now())
+}

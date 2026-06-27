@@ -1,0 +1,27 @@
+{
+  "sampleWebhookInput": {
+    "requestId": "hackathon-demo-001",
+    "input": "I worked for 4 months at a shop in Mumbai and my employer has not paid my salary. I have salary slips and WhatsApp chats.",
+    "evidenceItems": [
+      "salary slips",
+      "whatsapp chats",
+      "bank statement"
+    ],
+    "amountInvolved": 32000,
+    "incidentDate": "2026-03-18"
+  },
+  "sampleWorkflowOutput": {
+    "status": "ready_for_document_generation",
+    "probability": 0.74,
+    "recommendation": "Proceed to document generation and adversarial review stage.",
+    "disputeRecord": {
+      "category": "employment",
+      "issue": "Unpaid wages",
+      "factsSummary": "Employee alleges 4 months unpaid salary with documentary evidence",
+      "legalSignals": [
+        "Payment of Wages Act",
+        "Documentary evidence available"
+      ]
+    }
+  }
+}

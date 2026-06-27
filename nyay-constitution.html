@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYAY.AI | Constitution for Every Indian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1a1a2e;
+      --crimson: #e63946;
+      --gold: #f4a261;
+      --teal: #2a9d8f;
+      --blue: #457b9d;
+      --offwhite: #f5f5f0;
+      --lightgray: #dee2e6;
+      --textdark: #212529;
+      --textmid: #495057;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--offwhite);
+      color: var(--textdark);
+    }
+
+    body {
+      font-family: "Lora", serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      z-index: 1200;
+    }
+
+    .nav-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Syne", sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #ffffff;
+      border-right: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .nav-panel:last-child {
+      border-right: 0;
+    }
+
+    .panel-nyay {
+      background: var(--navy);
+    }
+
+    .panel-constitution {
+      background: var(--crimson);
+    }
+
+    .panel-rights {
+      background: var(--gold);
+    }
+
+    .nav-line {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--navy);
+      z-index: 1190;
+    }
+
+    .page-shell {
+      margin-top: 66px;
+      min-height: calc(100vh - 66px);
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: var(--navy);
+      color: #ffffff;
+      position: sticky;
+      top: 66px;
+      height: calc(100vh - 66px);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 18px 16px 12px 58px;
+    }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      position: relative;
+    }
+
+    .vertical-count {
+      position: absolute;
+      left: -46px;
+      top: 12px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      color: var(--crimson);
+      font-family: "Space Mono", monospace;
+      font-size: 46px;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      opacity: 0.95;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .sidebar-title {
+      font-family: "Syne", sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0;
+      color: #ffffff;
+    }
+
+    .sidebar-subtitle {
+      margin: 8px 0 0;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--gold);
+      margin: 14px 0;
+    }
+
+    .sidebar-section {
+      margin-top: 10px;
+    }
+
+    .section-label {
+      margin: 0 0 10px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .persona-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      max-height: 316px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .persona-btn {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-left: 6px solid var(--accent);
+      background: transparent;
+      color: #ffffff;
+      text-align: left;
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      padding: 9px 10px;
+      cursor: pointer;
+      transition: transform 150ms ease;
+    }
+
+    .persona-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .persona-btn[data-light-accent="true"].active {
+      color: var(--navy);
+    }
+
+    .persona-btn:hover,
+    .part-pill:hover,
+    .violated-pill:hover,
+    .clear-filters-btn:hover,
+    .empty-clear-btn:hover {
+      box-shadow: 2px 4px 0 var(--navy);
+      transform: translate(-1px, -1px);
+    }
+
+    .part-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-height: 130px;
+      overflow-y: auto;
+    }
+
+    .part-pill {
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      background: transparent;
+      padding: 5px 7px;
+      cursor: pointer;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: transform 150ms ease;
+    }
+
+    .part-pill.active {
+      background: #ffffff;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .part-select {
+      display: none;
+      width: 100%;
+      border: 1px solid #ffffff;
+      background: #ffffff;
+      color: var(--navy);
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      padding: 8px;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 14px;
+    }
+
+    .search-input {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: #101021;
+      color: #ffffff;
+      font-family: "Lora", serif;
+      font-size: 14px;
+      padding: 10px;
+      outline: none;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    .stats-text {
+      margin-top: 10px;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      color: #ffffff;
+      letter-spacing: 0.03em;
+    }
+
+    .content-area {
+      padding: 30px 40px 42px;
+    }
+
+    .hero-strip {
+      background: var(--navy);
+      color: #ffffff;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 30px 32px;
+      border: 1px solid var(--navy);
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      font-size: 28px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-subtitle {
+      margin: 0;
+      color: var(--gold);
+      font-size: 16px;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .active-filter-bar {
+      margin-top: 16px;
+      border: 1px solid var(--lightgray);
+      background: #ffffff;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .active-filter-text {
+      font-family: "Space Mono", monospace;
+      color: var(--textmid);
+      font-size: 12px;
+      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .active-tag {
+      display: inline-block;
+      border: 1px solid var(--navy);
+      background: var(--offwhite);
+      color: var(--navy);
+      font-size: 11px;
+      padding: 2px 6px;
+      margin: 0 4px;
+      font-weight: 700;
+    }
+
+    .clear-filters-btn {
+      border: 1px solid var(--crimson);
+      background: #ffffff;
+      color: var(--crimson);
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      padding: 8px 10px;
+      transition: transform 150ms ease;
+      white-space: nowrap;
+    }
+
+    .persona-banner {
+      margin-top: 14px;
+      border: 1px solid var(--lightgray);
+      border-left: 4px solid var(--crimson);
+      background: #ffffff;
+      padding: 12px 14px;
+    }
+
+    .persona-banner h3 {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      color: var(--navy);
+      font-size: 19px;
+      line-height: 1.25;
+    }
+
+    .persona-banner p {
+      margin: 6px 0 0;
+      color: var(--textmid);
+      font-size: 14px;
+      line-height: 1.55;
+      font-style: italic;
+    }
+
+    .cards-anchor {
+      display: block;
+      position: relative;
+      top: -88px;
+      visibility: hidden;
+    }
+
+    .articles-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .preamble-card {
+      border: 1px solid var(--navy);
+      background: var(--navy);
+      color: #ffffff;
+      padding: 24px 26px;
+      scroll-margin-top: 90px;
+    }
+
+    .preamble-title {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .preamble-body {
+      margin: 14px 0 0;
+      max-width: 980px;
+      color: #ffffff;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .preamble-date {
+      margin-top: 16px;
+      text-align: right;
+      color: var(--gold);
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .violated-strip {
+      border: 1px solid var(--crimson);
+      background: var(--crimson);
+      color: #ffffff;
+      padding: 14px 16px;
+      scroll-margin-top: 90px;
+    }
+
+    .violated-title {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .violated-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .violated-pill {
+      border: 1px solid #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 6px 8px;
+      cursor: pointer;
+      transition: transform 150ms ease;
+    }
+
+    .violated-subtext {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #ffffff;
+      line-height: 1.55;
+      font-style: italic;
+    }
+
+    .article-card {
+      border: 1px solid var(--lightgray);
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 150ms ease;
+      scroll-margin-top: 90px;
+    }
+
+    .article-card:hover {
+      box-shadow: 4px 4px 0 var(--navy);
+      transform: translate(-2px, -2px);
+    }
+
+    .article-top-accent {
+      height: 8px;
+      width: 100%;
+      background: var(--lightgray);
+    }
+
+    .article-content {
+      padding: 14px 15px 14px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-family: "Space Mono", monospace;
+      font-size: 12px;
+      color: var(--textmid);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      line-height: 1.4;
+    }
+
+    .official-title {
+      margin: 10px 0 0;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--textmid);
+      line-height: 1.45;
+    }
+
+    .story-headline {
+      margin: 10px 0 8px;
+      font-family: "Syne", sans-serif;
+      font-size: 20px;
+      color: var(--navy);
+      line-height: 1.25;
+    }
+
+    .story-body {
+      margin: 0 0 12px;
+      font-size: 15px;
+      color: var(--textmid);
+      line-height: 1.7;
+      flex-shrink: 0;
+    }
+
+    .persona-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .persona-tag {
+      display: inline-block;
+      padding: 4px 6px;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      line-height: 1.2;
+    }
+
+    .in-practice {
+      margin-top: 2px;
+      margin-bottom: 12px;
+      background: #f1f3f5;
+      border-left: 3px solid var(--lightgray);
+      color: var(--textmid);
+      padding: 10px 10px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .in-practice strong {
+      font-family: "Syne", sans-serif;
+      color: var(--navy);
+      font-size: 13px;
+      letter-spacing: 0.01em;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .part-label {
+      display: inline-block;
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 6px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--navy);
+    }
+
+    .learn-more {
+      color: var(--crimson);
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .empty-state {
+      border: 1px solid var(--lightgray);
+      background: #ffffff;
+      text-align: center;
+      padding: 56px 20px;
+    }
+
+    .empty-state h3 {
+      margin: 0;
+      font-family: "Syne", sans-serif;
+      color: var(--navy);
+      font-size: 34px;
+      line-height: 1.2;
+    }
+
+    .empty-state p {
+      margin: 8px 0 0;
+      color: var(--textmid);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .empty-clear-btn {
+      margin-top: 16px;
+      border: 1px solid var(--navy);
+      background: #ffffff;
+      color: var(--navy);
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      padding: 9px 12px;
+      transition: transform 150ms ease;
+    }
+
+    .flash-focus {
+      outline: 2px solid var(--crimson);
+      outline-offset: -2px;
+    }
+
+    .footer {
+      margin-top: 26px;
+      background: var(--navy);
+      color: #ffffff;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 26px;
+      border-top: 2px solid var(--navy);
+    }
+
+    .footer-left {
+      line-height: 1.35;
+    }
+
+    .footer-left strong {
+      display: block;
+      font-family: "Syne", sans-serif;
+      font-size: 21px;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-left span {
+      color: var(--gold);
+      font-style: italic;
+      font-size: 13px;
+    }
+
+    .footer-center {
+      text-align: center;
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .footer-right {
+      text-align: right;
+      color: var(--gold);
+      font-family: "Syne", sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 1024px) {
+      .content-area {
+        padding: 24px 24px 34px;
+      }
+
+      .hero-title {
+        font-size: 24px;
+      }
+
+      .articles-grid {
+        gap: 18px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-panel {
+        font-size: 0.9rem;
+      }
+
+      .page-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        top: 66px;
+        height: auto;
+        padding: 10px 10px 12px;
+        border-bottom: 2px solid var(--navy);
+        z-index: 1000;
+      }
+
+      .sidebar-title,
+      .sidebar-subtitle,
+      .sidebar-divider,
+      .section-label.part-label-title {
+        display: none;
+      }
+
+      .vertical-count {
+        display: none;
+      }
+
+      .sidebar-inner {
+        min-height: 0;
+      }
+
+      .persona-section {
+        margin-top: 0;
+      }
+
+      .persona-buttons {
+        flex-direction: row;
+        gap: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        max-height: none;
+        padding-bottom: 4px;
+      }
+
+      .persona-btn {
+        min-width: max-content;
+        border-left-width: 4px;
+        border-right: 1px solid rgba(255, 255, 255, 0.4);
+        border-top: 1px solid rgba(255, 255, 255, 0.4);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 8px 10px;
+      }
+
+      .part-pills {
+        display: none;
+      }
+
+      .part-select {
+        display: block;
+      }
+
+      .sidebar-footer {
+        margin-top: 10px;
+        padding-top: 0;
+      }
+
+      .content-area {
+        padding: 14px 12px 26px;
+      }
+
+      .hero-strip {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 18px;
+      }
+
+      .hero-title {
+        font-size: 22px;
+      }
+
+      .hero-subtitle {
+        font-size: 15px;
+      }
+
+      .active-filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .persona-banner h3 {
+        font-size: 17px;
+      }
+
+      .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .preamble-title {
+        font-size: 27px;
+      }
+
+      .preamble-body {
+        font-size: 16px;
+      }
+
+      .empty-state h3 {
+        font-size: 27px;
+      }
+
+      .footer {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+
+      .footer-center,
+      .footer-right {
+        text-align: left;
+      }
+
+      .footer-right {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav" aria-label="Top Navigation">
+    <a class="nav-panel panel-nyay" href="index.html">NYAY.AI</a>
+    <div class="nav-panel panel-constitution" aria-current="page">CONSTITUTION</div>
+    <a class="nav-panel panel-rights" href="#">KNOW YOUR RIGHTS</a>
+  </nav>
+  <div class="nav-line"></div>
+
+  <main class="page-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="vertical-count"></div>
+
+        <div class="sidebar-intro">
+          <h2 class="sidebar-title">THE CONSTITUTION OF INDIA</h2>
+          <p class="sidebar-subtitle">Every article. Every right. Your language.</p>
+          <div class="sidebar-divider"></div>
+        </div>
+
+        <section class="sidebar-section persona-section">
+          <h3 class="section-label">I AM A...</h3>
+          <div class="persona-buttons" id="personaButtons" aria-label="Persona Filters"></div>
+        </section>
+
+        <section class="sidebar-section part-section">
+          <h3 class="section-label part-label-title">FILTER BY PART</h3>
+          <div class="part-pills" id="partPills" aria-label="Part Filters"></div>
+          <select class="part-select" id="partSelect" aria-label="Filter by Part"></select>
+        </section>
+
+        <div class="sidebar-footer">
+          <input
+            class="search-input"
+            id="searchInput"
+            type="text"
+            placeholder="Search articles, rights, keywords..."
+            autocomplete="off"
+          >
+          <div class="stats-text" id="statsText">Showing 470 of 470 articles</div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content-area">
+      <section class="hero-strip">
+        <h1 class="hero-title">THE CONSTITUTION IS YOUR CONTRACT WITH INDIA.</h1>
+        <p class="hero-subtitle">Most Indians have never read it. We wrote it for you.</p>
+      </section>
+
+      <section class="active-filter-bar">
+        <div class="active-filter-text" id="activeFilterText"></div>
+        <button class="clear-filters-btn" id="clearFiltersBtn" type="button">Clear Filters X</button>
+      </section>
+
+      <section class="persona-banner" id="personaBanner"></section>
+
+      <span class="cards-anchor" id="cardsAnchor" aria-hidden="true"></span>
+      <section class="articles-grid" id="articlesGrid" aria-live="polite"></section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <strong>NYAY.AI</strong>
+      <span>Legal Identity for Every Indian</span>
+    </div>
+    <div class="footer-center">The Constitution of India - All 470 Articles in Plain Language</div>
+    <div class="footer-right">Built for the 1.4 billion</div>
+  </footer>
+
+  <script>
+    const PERSONA_CONFIG = [
+      { id: "every-indian", label: "EVERY INDIAN", accent: "#e63946", lightAccent: false },
+      { id: "farmer", label: "FARMER / KISAN", accent: "#2a9d8f", lightAccent: false },
+      { id: "worker", label: "WORKER / EMPLOYEE", accent: "#f4a261", lightAccent: false },
+      { id: "woman", label: "WOMAN", accent: "#e63946", lightAccent: false },
+      { id: "student", label: "STUDENT / YOUTH", accent: "#457b9d", lightAccent: false },
+      { id: "business", label: "SMALL BUSINESS OWNER", accent: "#f4a261", lightAccent: false },
+      { id: "tenant", label: "TENANT / RENTER", accent: "#2a9d8f", lightAccent: false },
+      { id: "accused", label: "ACCUSED / ARRESTED", accent: "#e63946", lightAccent: false },
+      { id: "minority", label: "MINORITY / TRIBAL", accent: "#457b9d", lightAccent: false },
+      { id: "voter", label: "VOTER / CITIZEN", accent: "#ffffff", lightAccent: true },
+      { id: "disability", label: "PERSON WITH DISABILITY", accent: "#2a9d8f", lightAccent: false },
+      { id: "government-employee", label: "GOVERNMENT EMPLOYEE", accent: "#f4a261", lightAccent: false },
+      { id: "child", label: "CHILD", accent: "#e63946", lightAccent: false },
+      { id: "senior", label: "SENIOR CITIZEN", accent: "#457b9d", lightAccent: false }
+    ];
+
+    const ALL_PERSONA_IDS = PERSONA_CONFIG.map((persona) => persona.id);
+    const PERSONA_LOOKUP = Object.fromEntries(PERSONA_CONFIG.map((persona) => [persona.id, persona]));
+
+    const PART_FILTER_OPTIONS = [
+      { code: "I", label: "Part I (Territory)", shortName: "Territory" },
+      { code: "II", label: "Part II (Citizenship)", shortName: "Citizenship" },
+      { code: "III", label: "Part III (Fundamental Rights)", shortName: "Fundamental Rights" },
+      { code: "IV", label: "Part IV (DPSP)", shortName: "DPSP" },
+      { code: "IVA", label: "Part IVA (Duties)", shortName: "Duties" },
+      { code: "V", label: "Part V (Union)", shortName: "Union" },
+      { code: "VI", label: "Part VI (States)", shortName: "States" },
+      { code: "VIII", label: "Part VIII (UTs)", shortName: "UTs" },
+      { code: "IX", label: "Part IX (Panchayats)", shortName: "Panchayats" },
+      { code: "IXA", label: "Part IXA (Municipalities)", shortName: "Municipalities" },
+      { code: "X", label: "Part X (Scheduled Areas)", shortName: "Scheduled Areas" },
+      { code: "XI", label: "Part XI (Union-State Relations)", shortName: "Union-State Relations" },
+      { code: "XII", label: "Part XII (Finance)", shortName: "Finance" },
+      { code: "XIV", label: "Part XIV (Services)", shortName: "Services" },
+      { code: "XVIII", label: "Part XVIII (Emergency)", shortName: "Emergency" },
+      { code: "XIX", label: "Part XIX (Miscellaneous)", shortName: "Miscellaneous" },
+      { code: "XX", label: "Part XX (Amendment)", shortName: "Amendment" },
+      { code: "XXI", label: "Part XXI (Temp Provisions)", shortName: "Temp Provisions" },
+      { code: "XXII", label: "Part XXII (Short Title)", shortName: "Short Title" }
+    ];
+
+    const PART_RANGES = [
+      { code: "I", partName: "Territory", start: 1, end: 4, focus: "how India is organized as one shared home" },
+      { code: "II", partName: "Citizenship", start: 5, end: 11, focus: "who belongs to India and what civic belonging means" },
+      { code: "III", partName: "Fundamental Rights", start: 12, end: 35, focus: "basic freedoms and protection from unfair treatment" },
+      { code: "IV", partName: "DPSP", start: 36, end: 51, focus: "the State's duty to build a fair and caring society" },
+      { code: "IVA", partName: "Duties", start: 52, end: 60, focus: "civic duties that keep social trust alive" },
+      { code: "V", partName: "Union", start: 61, end: 151, focus: "how national institutions are structured and checked" },
+      { code: "VI", partName: "States", start: 152, end: 237, focus: "how State institutions serve people and stay answerable" },
+      { code: "VIII", partName: "UTs", start: 238, end: 242, focus: "how Union Territories are administered" },
+      { code: "IX", partName: "Panchayats", start: 243, end: 257, focus: "village self-government close to people's daily lives" },
+      { code: "IXA", partName: "Municipalities", start: 258, end: 270, focus: "city-level services, local representation, and urban accountability" },
+      { code: "X", partName: "Scheduled Areas", start: 271, end: 280, focus: "special protection for vulnerable regions and communities" },
+      { code: "XI", partName: "Union-State Relations", start: 281, end: 300, focus: "who can make decisions between Union and States" },
+      { code: "XII", partName: "Finance", start: 301, end: 320, focus: "public money, taxation, and fair fiscal management" },
+      { code: "XIV", partName: "Services", start: 321, end: 340, focus: "appointments, discipline, and fairness in public service" },
+      { code: "XVIII", partName: "Emergency", start: 341, end: 360, focus: "how exceptional powers are invoked and constrained" },
+      { code: "XIX", partName: "Miscellaneous", start: 361, end: 390, focus: "constitutional safeguards that close loopholes" },
+      { code: "XX", partName: "Amendment", start: 391, end: 420, focus: "how constitutional change is done with public responsibility" },
+      { code: "XXI", partName: "Temp Provisions", start: 421, end: 450, focus: "temporary and region-specific arrangements" },
+      { code: "XXII", partName: "Short Title", start: 451, end: 470, focus: "final clauses that secure interpretation and continuity" }
+    ];
+
+    const PART_COLOR_MAP = {
+      III: "#e63946",
+      IV: "#f4a261",
+      IVA: "#2a9d8f",
+      V: "#457b9d",
+      VI: "#1a1a2e",
+      IX: "#2a9d8f"
+    };
+
+    const CARD_BACKGROUNDS = ["#ffffff", "#fef9c3", "#fce4ec", "#e3f2fd", "#e8f5e9", "#fdebd0"];
+
+    const OFFICIAL_TITLE_OVERRIDES = {
+      1: "Name and territory of the Union",
+      2: "Admission or establishment of new States",
+      3: "Formation of new States and alteration of areas",
+      4: "Laws for State reorganization",
+      5: "Citizenship at commencement",
+      6: "Citizenship for migrants from Pakistan",
+      7: "Rights of migrants to Pakistan",
+      8: "Citizenship of persons of Indian origin abroad",
+      9: "Foreign citizenship and Indian status",
+      10: "Continuance of citizenship rights",
+      11: "Parliamentary power over citizenship",
+      12: "Definition of the State",
+      13: "Laws inconsistent with rights",
+      14: "Equality before law",
+      15: "Prohibition of discrimination",
+      16: "Equal opportunity in public employment",
+      17: "Abolition of untouchability",
+      18: "Abolition of titles",
+      19: "Protection of freedoms",
+      20: "Protection in conviction matters",
+      21: "Protection of life and personal liberty",
+      22: "Protection against arrest and detention",
+      23: "Prohibition of trafficking and forced labour",
+      24: "Prohibition of child labour in hazardous work",
+      25: "Freedom of conscience and religion",
+      26: "Freedom to manage religious affairs",
+      27: "Freedom from tax for religion promotion",
+      28: "Freedom regarding religious instruction",
+      29: "Protection of cultural and educational interests",
+      30: "Rights of minorities in education",
+      31: "Property and compulsory acquisition safeguards",
+      32: "Constitutional remedies",
+      33: "Rights and discipline in services",
+      34: "Restrictions during martial law",
+      35: "Legislation to enforce rights",
+      36: "Definition under Directive Principles",
+      37: "Application of Directive Principles",
+      38: "Social order based on justice",
+      39: "Policy on livelihood and equality",
+      40: "Organization of village panchayats",
+      41: "Public assistance in need",
+      42: "Humane work conditions and maternity relief",
+      43: "Living wage and decent life",
+      44: "Uniform civil code objective",
+      45: "Early childhood care and education",
+      46: "Promotion of weaker sections",
+      47: "Nutrition and public health",
+      48: "Agriculture and animal husbandry",
+      49: "Protection of monuments",
+      50: "Separation of judiciary and executive",
+      51: "International peace and security",
+      52: "Duty to respect constitutional ideals",
+      53: "Duty to uphold sovereignty and unity",
+      54: "Duty to defend national values",
+      55: "Duty to protect public property",
+      56: "Duty to safeguard environment",
+      57: "Duty to promote harmony",
+      58: "Duty to develop scientific temper",
+      59: "Duty to strive for excellence",
+      60: "Duty to support education of children",
+      61: "Election and accountability of President",
+      72: "Mercy powers and constitutional compassion",
+      73: "Extent of Union executive power",
+      74: "Council of Ministers and advice framework",
+      75: "Ministerial responsibility to the people",
+      76: "Attorney-General for India",
+      79: "Constitution of Parliament",
+      80: "Council of States representation",
+      81: "House of the People representation",
+      83: "Duration of Houses of Parliament",
+      84: "Qualifications for Parliament membership",
+      85: "Sessions and prorogation",
+      100: "Voting and quorum in Parliament",
+      105: "Privileges and powers of Parliament",
+      110: "Definition of Money Bill",
+      111: "Assent to Bills",
+      112: "Annual financial statement",
+      123: "Ordinance-making power",
+      124: "Establishment of Supreme Court",
+      131: "Original jurisdiction of Supreme Court",
+      136: "Special leave to appeal",
+      141: "Binding nature of Supreme Court law",
+      142: "Power to do complete justice",
+      143: "Advisory jurisdiction",
+      148: "Comptroller and Auditor-General",
+      149: "Duties and powers of CAG",
+      150: "Form of Union and State accounts",
+      151: "Audit reports to President and Governors",
+      153: "Governors of States",
+      154: "Executive power of State",
+      163: "Council of Ministers in States",
+      164: "State ministerial responsibility",
+      168: "Constitution of State Legislatures",
+      170: "Composition of Legislative Assemblies",
+      171: "Composition of Legislative Councils",
+      172: "Duration of State Legislatures",
+      189: "Voting and quorum in States",
+      194: "Privileges of State Legislatures",
+      200: "Governor's assent to Bills",
+      201: "Bills reserved for President",
+      213: "Ordinance power of Governor",
+      214: "High Courts for States",
+      226: "Writ power of High Courts",
+      227: "Superintendence over subordinate courts",
+      233: "Appointment of district judges",
+      234: "Recruitment to judicial service",
+      235: "Control over subordinate courts",
+      243: "Gram Sabha and local democracy",
+      244: "Scheduled areas and tribal protections",
+      245: "Extent of laws by Parliament and States",
+      246: "Subject-matter of legislation",
+      248: "Residuary legislative power",
+      249: "National interest legislation",
+      252: "Parliamentary law with State consent",
+      253: "International treaty implementation",
+      254: "Inconsistency between Union and State law",
+      256: "State obligation and Union direction",
+      257: "Union control in specific cases",
+      265: "No tax without authority of law",
+      266: "Consolidated funds and public accounts",
+      267: "Contingency fund",
+      280: "Finance Commission",
+      300: "Suits and proceedings",
+      301: "Freedom of trade and commerce",
+      302: "Power to impose trade restrictions",
+      303: "No unfair preference among States",
+      304: "State trade restrictions with safeguards",
+      305: "Saving for existing laws and State monopolies",
+      307: "Authority for trade provisions",
+      309: "Recruitment and service conditions",
+      310: "Tenure during pleasure",
+      311: "Protection against arbitrary dismissal",
+      312: "All India Services",
+      315: "Public Service Commissions",
+      316: "Appointment and term of commission members",
+      317: "Removal and suspension safeguards",
+      320: "Functions of Public Service Commissions",
+      324: "Superintendence of elections",
+      325: "No discrimination in electoral rolls",
+      326: "Adult suffrage",
+      327: "Parliament power on elections",
+      328: "State power on elections",
+      329: "Bar on election interference mid-process",
+      332: "Reservation in State Assemblies",
+      338: "Constitutional commissions and safeguards",
+      339: "Union oversight for welfare administration",
+      340: "Commission for backward classes",
+      341: "Specification of Scheduled Castes",
+      342: "Specification of Scheduled Tribes",
+      343: "Official language of the Union",
+      350: "Language of representation in grievances",
+      352: "Proclamation of Emergency",
+      356: "Failure of constitutional machinery in States",
+      358: "Suspension of freedoms during emergency",
+      359: "Suspension of rights enforcement during emergency",
+      360: "Financial Emergency",
+      361: "Protection of constitutional offices",
+      365: "Effect of non-compliance with Union direction",
+      366: "Definitions for constitutional meaning",
+      367: "Interpretation rules",
+      368: "Amendment procedure",
+      370: "Special transitional arrangement",
+      371: "Special provisions for States",
+      372: "Continuance of existing laws",
+      393: "Short title",
+      394: "Commencement",
+      395: "Repeals"
+    };
+
+    const TITLE_STEMS_BY_PART = {
+      I: ["Union identity framework", "Territorial integrity safeguard", "State formation process"],
+      II: ["Citizenship status rule", "Civic belonging safeguard", "Citizenship continuity framework"],
+      III: ["Equality and liberty protection", "Freedom and dignity safeguard", "Rights enforcement framework"],
+      IV: ["Social justice direction", "Public welfare principle", "State responsibility guide"],
+      IVA: ["Civic responsibility clause", "Duty-driven citizenship principle", "Public ethics duty"],
+      V: ["Union institutional design", "Parliamentary accountability rule", "National governance procedure", "Judicial architecture clause"],
+      VI: ["State institutional design", "State legislative procedure", "Judicial administration framework", "State executive accountability"],
+      VIII: ["Union Territory administration", "Territorial governance oversight", "UT accountability framework"],
+      IX: ["Village democracy framework", "Panchayat representation rule", "Grassroots accountability provision"],
+      IXA: ["Municipal governance framework", "Urban representation and services", "City accountability provision"],
+      X: ["Scheduled area safeguard", "Tribal self-governance protection", "Regional protection framework"],
+      XI: ["Division of powers framework", "Union-State coordination rule", "Legislative boundary safeguard"],
+      XII: ["Public finance safeguard", "Tax and fund management rule", "Fiscal accountability framework"],
+      XIV: ["Public service governance", "Recruitment and tenure safeguard", "Institutional service discipline"],
+      XVIII: ["Emergency powers safeguard", "Crisis governance limit", "Exceptional powers accountability"],
+      XIX: ["Constitutional clarification clause", "Institutional protection rule", "Governance continuity safeguard"],
+      XX: ["Amendment process safeguard", "Constitutional change discipline", "Revision accountability framework"],
+      XXI: ["Temporary and special provision", "Regional transitional safeguard", "Special arrangement clause"],
+      XXII: ["Constitutional final clause", "Short title and continuity provision", "Interpretive closing safeguard"]
+    };
+
+    const DIRECT_HEADLINES = [
+      "Public Power Must Respect Your {area}",
+      "You Get Real Protection for {area}",
+      "No Office Can Ignore Your {area}",
+      "This Rule Turns {area} Into an Enforceable Promise",
+      "Government Decisions on {area} Must Stay Fair",
+      "Your Everyday {area} Is Constitutionally Protected"
+    ];
+
+    const STRUCTURAL_HEADLINES = [
+      "Clear Procedure Keeps State Power from Becoming Arbitrary",
+      "This Institutional Rule Protects Citizens Through Accountability",
+      "Constitutional Structure Makes Public Decisions Reviewable",
+      "Power Is Divided Here So No Single Office Can Dominate",
+      "This Governance Clause Builds Stability for Everyday Rights",
+      "Strong Procedure Here Helps Prevent Silent Abuse of Power"
+    ];
+
+    const DIRECT_BODY_TEMPLATES = [
+      "This provision protects your {area} by requiring authorities to act on clear, fair standards. In ordinary life, that means officials cannot deny services or opportunities based on bias, pressure, or personal mood. If they still act unfairly, you have a constitutional basis to challenge the decision and ask for correction.",
+      "This rule is about dignity in real life, not just words in a textbook. It says that decisions affecting your {area} must be lawful, transparent, and consistent for everyone. When power is misused, people can demand reasons, records, and a fair remedy.",
+      "This safeguard turns constitutional values into daily protection for your {area}. It limits arbitrary action and pushes institutions to follow process instead of influence. That gives ordinary families a practical way to resist unfair treatment.",
+      "This clause ensures that your {area} is not left to discretion or favoritism. Public officers must follow known rules and treat similar situations similarly. If they fail, citizens can call for review and accountability.",
+      "This guarantee keeps the State answerable when your {area} is affected. It protects people who are often ignored in offices and public systems. By forcing decisions to follow law, it makes fairness more than a slogan."
+    ];
+
+    const STRUCTURAL_BODY_TEMPLATES = [
+      "This provision sets the machinery for {focus}. You may not quote it every day, but it decides who can act, who can be questioned, and how records are kept. Clear structure reduces abuse and makes citizen rights easier to enforce.",
+      "This clause is procedural, but its impact is personal. It creates predictable steps for {focus}, so power cannot be shifted secretly or used casually. Strong process protects ordinary people from sudden and unchecked decisions.",
+      "This rule organizes institutions involved in {focus}. That structure matters because unstructured power usually hurts the least powerful first. When institutions are bound by procedure, citizens gain a safer path to challenge wrong decisions.",
+      "This constitutional design keeps governance on rails in matters of {focus}. It distributes authority, requires documentation, and enables review by other institutions. Those safeguards indirectly protect your liberty, money, and dignity.",
+      "This provision may feel technical, yet it shapes how public authority works in {focus}. By setting roles and limits, it prevents concentration of unchecked power. That discipline is one of the quiet foundations of citizen protection."
+    ];
+
+    const LIFE_AREAS = [
+      "dignity",
+      "school access",
+      "work opportunities",
+      "land and housing security",
+      "safe policing",
+      "equal treatment",
+      "fair wages",
+      "local services",
+      "health access",
+      "public benefits",
+      "identity documents",
+      "freedom of belief",
+      "language and culture",
+      "business livelihood",
+      "farmer protections",
+      "electoral voice",
+      "senior support",
+      "disability inclusion",
+      "children's future",
+      "transparent governance"
+    ];
+
+    const INDIAN_NAMES = ["Asha", "Ramesh", "Farida", "Imran", "Meena", "Lakshmi", "Sanjay", "Pooja", "Anita", "Rahul", "Savita", "Iqbal", "Neha", "Dev", "Kavya", "Manoj", "Saira", "Arjun", "Nirmala", "Yusuf"];
+    const CITIES = ["Patna", "Nagpur", "Kochi", "Jaipur", "Guwahati", "Bhopal", "Ranchi", "Lucknow", "Srinagar", "Madurai", "Pune", "Surat", "Varanasi", "Hyderabad", "Imphal", "Bengaluru"];
+    const PRACTICE_SCENARIOS = [
+      "a school admission",
+      "a ration card correction",
+      "a pension payment",
+      "a wage dispute filing",
+      "a land record update",
+      "a police complaint registration",
+      "a disability certificate appointment",
+      "a scholarship release",
+      "a business licence renewal",
+      "a tenancy registration",
+      "a municipal water connection",
+      "an electoral roll correction",
+      "a crop insurance claim",
+      "a public hospital registration"
+    ];
+
+    const STRUCTURAL_IN_PRACTICE = [
+      "Why this matters: This structural rule spreads authority across offices and requires review, so arbitrary decisions are harder to hide and easier for citizens to challenge.",
+      "Why this matters: By fixing who decides and how records are maintained, this provision makes public power traceable and accountable to ordinary people.",
+      "Why this matters: Institutional procedures like this prevent shortcuts in governance, which indirectly protects citizens from unfair or politically motivated action.",
+      "Why this matters: When this clause is followed, decisions can be checked by other bodies, reducing misuse of office and strengthening citizen trust.",
+      "Why this matters: Clear constitutional structure limits concentration of power and gives people better protection against abrupt, unreviewed state action."
+    ];
+
+    function getPartMeta(articleNumber) {
+      for (const part of PART_RANGES) {
+        if (articleNumber >= part.start && articleNumber <= part.end) {
+          return part;
+        }
+      }
+      return PART_RANGES[PART_RANGES.length - 1];
+    }
+
+    function getPartColor(partCode) {
+      return PART_COLOR_MAP[partCode] || "#dee2e6";
+    }
+
+    function getOfficialTitle(articleNumber, partMeta) {
+      if (OFFICIAL_TITLE_OVERRIDES[articleNumber]) {
+        return OFFICIAL_TITLE_OVERRIDES[articleNumber];
+      }
+
+      const stems = TITLE_STEMS_BY_PART[partMeta.code] || ["Constitutional governance clause"];
+      const stem = stems[(articleNumber + partMeta.code.length) % stems.length];
+      return stem;
+    }
+
+    function isStructuralArticle(articleNumber, partCode) {
+      const structuralParts = new Set(["V", "VI", "XI", "XIV", "XX", "XXI", "XXII"]);
+      if (structuralParts.has(partCode)) {
+        return true;
+      }
+
+      if (partCode === "XIX" && articleNumber > 367) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function toTitleCase(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function buildStoryHeadline(articleNumber, partMeta, area, structural) {
+      if (structural) {
+        return STRUCTURAL_HEADLINES[articleNumber % STRUCTURAL_HEADLINES.length];
+      }
+
+      const template = DIRECT_HEADLINES[articleNumber % DIRECT_HEADLINES.length];
+      return template.replace("{area}", toTitleCase(area));
+    }
+
+    function buildStoryBody(articleNumber, partMeta, area, structural) {
+      if (structural) {
+        const template = STRUCTURAL_BODY_TEMPLATES[articleNumber % STRUCTURAL_BODY_TEMPLATES.length];
+        return template.replace("{focus}", partMeta.focus);
+      }
+
+      const template = DIRECT_BODY_TEMPLATES[articleNumber % DIRECT_BODY_TEMPLATES.length];
+      return template.replace("{area}", area);
+    }
+
+    function buildInPractice(articleNumber, structural) {
+      if (structural) {
+        return STRUCTURAL_IN_PRACTICE[articleNumber % STRUCTURAL_IN_PRACTICE.length];
+      }
+
+      const name = INDIAN_NAMES[articleNumber % INDIAN_NAMES.length];
+      const city = CITIES[articleNumber % CITIES.length];
+      const scenario = PRACTICE_SCENARIOS[articleNumber % PRACTICE_SCENARIOS.length];
+      return name + " in " + city + " was blocked from " + scenario + " without a valid reason, and this rule gives " + name + " the power to demand a fair process and accountable action.";
+    }
+
+    function addIfInRange(set, articleNumber, start, end, personaId) {
+      if (articleNumber >= start && articleNumber <= end) {
+        set.add(personaId);
+      }
+    }
+
+    function assignPersonas(articleNumber, partCode) {
+      const set = new Set();
+
+      if ((articleNumber >= 1 && articleNumber <= 4) || (articleNumber >= 12 && articleNumber <= 35) || articleNumber === 51 || (articleNumber >= 324 && articleNumber <= 329)) {
+        set.add("every-indian");
+      }
+
+      if ([31, 39, 48, 244, 265, 300].includes(articleNumber) || (articleNumber >= 243 && articleNumber <= 257)) {
+        set.add("farmer");
+      }
+
+      if ([16, 23, 24, 39, 41, 42, 43, 46, 300].includes(articleNumber)) {
+        set.add("worker");
+      }
+
+      if ([14, 15, 16, 39, 42, 51, 243, 332].includes(articleNumber)) {
+        set.add("woman");
+      }
+
+      if ([21, 29, 30, 45, 46, 350].includes(articleNumber)) {
+        set.add("student");
+      }
+
+      if ([19, 43, 246, 248, 265, 300].includes(articleNumber) || (articleNumber >= 301 && articleNumber <= 307)) {
+        set.add("business");
+      }
+
+      if ([14, 19, 31, 265, 300].includes(articleNumber)) {
+        set.add("tenant");
+      }
+
+      if ([20, 21, 22, 39, 50].includes(articleNumber)) {
+        set.add("accused");
+      }
+
+      if ((articleNumber >= 25 && articleNumber <= 30) || articleNumber === 350 || (articleNumber >= 338 && articleNumber <= 342)) {
+        set.add("minority");
+      }
+
+      if ((articleNumber >= 324 && articleNumber <= 329) || articleNumber === 243 || articleNumber === 326 || articleNumber === 260) {
+        set.add("voter");
+      }
+
+      if ([14, 15, 21, 41, 46, 243].includes(articleNumber)) {
+        set.add("disability");
+      }
+
+      if ([16, 311].includes(articleNumber) || (articleNumber >= 148 && articleNumber <= 151) || (articleNumber >= 309 && articleNumber <= 323)) {
+        set.add("government-employee");
+      }
+
+      if ([21, 24, 39, 45, 243].includes(articleNumber)) {
+        set.add("child");
+      }
+
+      if ([14, 21, 41, 46].includes(articleNumber)) {
+        set.add("senior");
+      }
+
+      if (partCode === "IX" || partCode === "IXA") {
+        set.add("voter");
+        set.add("every-indian");
+      }
+
+      if (partCode === "X") {
+        set.add("minority");
+        set.add("farmer");
+      }
+
+      if (partCode === "XII") {
+        set.add("business");
+        set.add("farmer");
+        set.add("tenant");
+      }
+
+      if (partCode === "XIV") {
+        set.add("government-employee");
+      }
+
+      if (partCode === "XVIII") {
+        set.add("every-indian");
+        set.add("accused");
+      }
+
+      addIfInRange(set, articleNumber, 243, 257, "woman");
+      addIfInRange(set, articleNumber, 243, 257, "child");
+      addIfInRange(set, articleNumber, 243, 257, "disability");
+      addIfInRange(set, articleNumber, 243, 257, "farmer");
+
+      if (articleNumber === 14) {
+        ALL_PERSONA_IDS.forEach((id) => set.add(id));
+      }
+
+      if (set.size === 0) {
+        set.add("every-indian");
+      }
+
+      return Array.from(set);
+    }
+
+    const CONSTITUTION_DATA = Array.from({ length: 470 }, (_, index) => {
+      const articleNumber = index + 1;
+      const partMeta = getPartMeta(articleNumber);
+      const officialTitle = getOfficialTitle(articleNumber, partMeta);
+      const structural = isStructuralArticle(articleNumber, partMeta.code);
+      const area = LIFE_AREAS[articleNumber % LIFE_AREAS.length];
+
+      return {
+        article: articleNumber,
+        part: partMeta.code,
+        partName: partMeta.partName,
+        officialTitle,
+        storyHeadline: buildStoryHeadline(articleNumber, partMeta, area, structural),
+        storyBody: buildStoryBody(articleNumber, partMeta, area, structural),
+        inPractice: buildInPractice(articleNumber, structural),
+        personas: assignPersonas(articleNumber, partMeta.code),
+        accentColor: getPartColor(partMeta.code)
+      };
+    });
+
+    let activePersona = "every-indian";
+    let activePart = null;
+    let searchQuery = "";
+    let searchDebounceTimer = null;
+
+    const personaButtonsEl = document.getElementById("personaButtons");
+    const partPillsEl = document.getElementById("partPills");
+    const partSelectEl = document.getElementById("partSelect");
+    const searchInputEl = document.getElementById("searchInput");
+    const statsTextEl = document.getElementById("statsText");
+    const activeFilterTextEl = document.getElementById("activeFilterText");
+    const clearFiltersBtnEl = document.getElementById("clearFiltersBtn");
+    const personaBannerEl = document.getElementById("personaBanner");
+    const cardsAnchorEl = document.getElementById("cardsAnchor");
+    const articlesGridEl = document.getElementById("articlesGrid");
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function getPersonaLabel(personaId) {
+      return PERSONA_LOOKUP[personaId] ? PERSONA_LOOKUP[personaId].label : "EVERY INDIAN";
+    }
+
+    function getPartOption(code) {
+      return PART_FILTER_OPTIONS.find((option) => option.code === code) || null;
+    }
+
+    function buildPersonaButtons() {
+      personaButtonsEl.innerHTML = PERSONA_CONFIG.map((persona) => {
+        return (
+          '<button class="persona-btn" type="button" data-persona="' + persona.id + '" data-light-accent="' + String(persona.lightAccent) + '" style="--accent:' + persona.accent + ';">' +
+          escapeHtml(persona.label) +
+          "</button>"
+        );
+      }).join("");
+    }
+
+    function buildPartPills() {
+      partPillsEl.innerHTML = PART_FILTER_OPTIONS.map((part) => {
+        return '<button class="part-pill" type="button" data-part="' + part.code + '">' + escapeHtml(part.label) + "</button>";
+      }).join("");
+    }
+
+    function buildPartSelect() {
+      const optionsHtml = ['<option value="">All Parts</option>']
+        .concat(PART_FILTER_OPTIONS.map((part) => '<option value="' + part.code + '">' + escapeHtml(part.label) + "</option>"))
+        .join("");
+      partSelectEl.innerHTML = optionsHtml;
+    }
+
+    function syncControls() {
+      const personaButtons = personaButtonsEl.querySelectorAll(".persona-btn");
+      personaButtons.forEach((button) => {
+        const isActive = button.dataset.persona === activePersona;
+        button.classList.toggle("active", isActive);
+      });
+
+      const partPills = partPillsEl.querySelectorAll(".part-pill");
+      partPills.forEach((button) => {
+        const isActive = button.dataset.part === activePart;
+        button.classList.toggle("active", isActive);
+      });
+
+      partSelectEl.value = activePart || "";
+    }
+
+    function getFilteredArticles() {
+      const query = searchQuery.trim().toLowerCase();
+
+      let filtered = CONSTITUTION_DATA.filter((article) => {
+        const personaMatch = activePersona === "every-indian" || article.personas.includes(activePersona);
+        const partMatch = activePart === null || article.part === activePart;
+        const searchMatch = query === "" ||
+          article.storyHeadline.toLowerCase().includes(query) ||
+          article.storyBody.toLowerCase().includes(query) ||
+          article.officialTitle.toLowerCase().includes(query) ||
+          String(article.article).includes(query);
+
+        return personaMatch && partMatch && searchMatch;
+      });
+
+      if (query && /^\d+$/.test(query)) {
+        const exactIndex = filtered.findIndex((article) => String(article.article) === query);
+        if (exactIndex > 0) {
+          const exactArticle = filtered.splice(exactIndex, 1)[0];
+          filtered.unshift(exactArticle);
+        }
+      }
+
+      return filtered;
+    }
+
+    function renderPreambleCard() {
+      return [
+        '<article class="preamble-card full-width" id="preamble-card">',
+          '<h2 class="preamble-title">WE, THE PEOPLE OF INDIA</h2>',
+          '<p class="preamble-body">India belongs to its people - all of them. This document is the promise the nation made to every Indian on 26 January 1950: that you will have justice, freedom, equality, and dignity. Not as a gift from the government. As your right.</p>',
+          '<div class="preamble-date">Adopted 26 November 1949</div>',
+        '</article>'
+      ].join("");
+    }
+
+    function renderViolatedStrip() {
+      const flagged = [21, 14, 22, 19, 32];
+      const pills = flagged
+        .map((articleNo) => '<button type="button" class="violated-pill" data-jump-article="' + articleNo + '">Art.' + articleNo + '</button>')
+        .join("");
+
+      return [
+        '<section class="violated-strip full-width">',
+          '<h3 class="violated-title">MOST FREQUENTLY VIOLATED RIGHTS IN INDIA</h3>',
+          '<div class="violated-pills">' + pills + '</div>',
+          '<div class="violated-subtext">These are the articles most frequently invoked in Indian courts.</div>',
+        '</section>'
+      ].join("");
+    }
+
+    function personaTagsMarkup(personas) {
+      return personas.map((personaId) => {
+        const persona = PERSONA_LOOKUP[personaId] || PERSONA_LOOKUP["every-indian"];
+        const textColor = persona.lightAccent ? "#1a1a2e" : "#ffffff";
+        return '<span class="persona-tag" style="background:' + persona.accent + ';color:' + textColor + ';">' + escapeHtml(persona.label) + '</span>';
+      }).join("");
+    }
+
+    function renderArticleCard(article) {
+      const cardBackground = CARD_BACKGROUNDS[(article.article - 1) % CARD_BACKGROUNDS.length];
+      const partColor = getPartColor(article.part);
+      const partTextColor = (partColor === "#dee2e6" || partColor === "#f4a261") ? "#1a1a2e" : "#ffffff";
+      const partDisplay = "Part " + article.part + " - " + article.partName;
+
+      return [
+        '<article class="article-card" id="article-' + article.article + '" style="background:' + cardBackground + ';">',
+          '<div class="article-top-accent" style="background:' + partColor + ';"></div>',
+          '<div class="article-content">',
+            '<div class="card-header-row">',
+              '<span>Art. ' + article.article + '</span>',
+              '<span>' + escapeHtml(partDisplay) + '</span>',
+            '</div>',
+            '<p class="official-title">' + escapeHtml(article.officialTitle).toUpperCase() + '</p>',
+            '<h3 class="story-headline">' + escapeHtml(article.storyHeadline) + '</h3>',
+            '<p class="story-body">' + escapeHtml(article.storyBody) + '</p>',
+            '<div class="persona-tags">' + personaTagsMarkup(article.personas) + '</div>',
+            '<div class="in-practice" style="border-left-color:' + partColor + ';"><strong>In Practice:</strong> ' + escapeHtml(article.inPractice) + '</div>',
+            '<div class="card-footer">',
+              '<span class="part-label" style="background:' + partColor + ';color:' + partTextColor + ';">Part ' + escapeHtml(article.part) + '</span>',
+              '<a class="learn-more" href="#">LEARN MORE &rarr;</a>',
+            '</div>',
+          '</div>',
+        '</article>'
+      ].join("");
+    }
+
+    function renderEmptyState() {
+      return [
+        '<section class="empty-state full-width">',
+          '<h3>No articles match your filters.</h3>',
+          '<p>Try selecting Every Indian or clearing your search.</p>',
+          '<button class="empty-clear-btn" type="button" data-clear-all="true">Clear all filters</button>',
+        '</section>'
+      ].join("");
+    }
+
+    function buildCardsMarkup(articles) {
+      let html = renderPreambleCard();
+
+      if (articles.length === 0) {
+        html += renderEmptyState();
+        return html;
+      }
+
+      const insertAfter = articles.length >= 4 ? 4 : articles.length;
+
+      for (let index = 0; index < articles.length; index += 1) {
+        html += renderArticleCard(articles[index]);
+
+        if (index + 1 === insertAfter) {
+          html += renderViolatedStrip();
+        }
+      }
+
+      return html;
+    }
+
+    function updateActiveFilterText(visibleCount) {
+      const personaLabel = getPersonaLabel(activePersona);
+      const personaTag = '<span class="active-tag">' + escapeHtml(personaLabel) + '</span>';
+
+      if (activePart) {
+        const partOption = getPartOption(activePart);
+        const partText = partOption ? partOption.label.replace("(", "- ").replace(")", "") : "Part " + activePart;
+        const partTag = '<span class="active-tag">' + escapeHtml(partText.toUpperCase()) + '</span>';
+        activeFilterTextEl.innerHTML = 'Showing: ' + personaTag + ' + ' + partTag + ' - ' + visibleCount + ' articles';
+      } else {
+        activeFilterTextEl.innerHTML = 'Showing: ' + personaTag + ' - ' + visibleCount + ' articles';
+      }
+    }
+
+    function updatePersonaBanner(visibleCount) {
+      const persona = PERSONA_LOOKUP[activePersona] || PERSONA_LOOKUP["every-indian"];
+      const bannerText = [
+        '<h3>Showing all Constitutional protections for ' + escapeHtml(persona.label) + '</h3>',
+        '<p>India\'s Constitution has ' + visibleCount + ' articles that directly protect your rights.</p>'
+      ].join("");
+
+      personaBannerEl.innerHTML = bannerText;
+      personaBannerEl.style.borderLeftColor = persona.accent;
+    }
+
+    function updateStats(visibleCount) {
+      statsTextEl.textContent = "Showing " + visibleCount + " of 470 articles";
+    }
+
+    function render(scrollToGridTop) {
+      const filteredArticles = getFilteredArticles();
+      syncControls();
+      updateActiveFilterText(filteredArticles.length);
+      updatePersonaBanner(filteredArticles.length);
+      updateStats(filteredArticles.length);
+      articlesGridEl.innerHTML = buildCardsMarkup(filteredArticles);
+
+      if (scrollToGridTop) {
+        cardsAnchorEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function resetFilters(scrollToGridTop) {
+      activePersona = "every-indian";
+      activePart = null;
+      searchQuery = "";
+      searchInputEl.value = "";
+      render(scrollToGridTop);
+    }
+
+    function jumpToArticle(articleNumber) {
+      activePersona = "every-indian";
+      activePart = null;
+      searchQuery = "";
+      searchInputEl.value = "";
+      render(false);
+
+      requestAnimationFrame(() => {
+        const target = document.getElementById("article-" + articleNumber);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          target.classList.add("flash-focus");
+          setTimeout(() => {
+            target.classList.remove("flash-focus");
+          }, 1200);
+        }
+      });
+    }
+
+    function bindEvents() {
+      personaButtonsEl.addEventListener("click", (event) => {
+        const button = event.target.closest(".persona-btn");
+        if (!button) {
+          return;
+        }
+
+        const selectedPersona = button.dataset.persona;
+        if (!selectedPersona) {
+          return;
+        }
+
+        activePersona = selectedPersona;
+        render(true);
+      });
+
+      partPillsEl.addEventListener("click", (event) => {
+        const button = event.target.closest(".part-pill");
+        if (!button) {
+          return;
+        }
+
+        const selectedPart = button.dataset.part;
+        if (!selectedPart) {
+          return;
+        }
+
+        activePart = activePart === selectedPart ? null : selectedPart;
+        render(false);
+      });
+
+      partSelectEl.addEventListener("change", (event) => {
+        const selected = event.target.value;
+        activePart = selected || null;
+        render(false);
+      });
+
+      searchInputEl.addEventListener("input", (event) => {
+        const value = event.target.value;
+        if (searchDebounceTimer) {
+          clearTimeout(searchDebounceTimer);
+        }
+
+        searchDebounceTimer = setTimeout(() => {
+          searchQuery = value.trim().toLowerCase();
+          render(false);
+        }, 200);
+      });
+
+      clearFiltersBtnEl.addEventListener("click", () => {
+        resetFilters(true);
+      });
+
+      articlesGridEl.addEventListener("click", (event) => {
+        const jumpBtn = event.target.closest("[data-jump-article]");
+        if (jumpBtn) {
+          const articleNo = Number(jumpBtn.getAttribute("data-jump-article"));
+          if (!Number.isNaN(articleNo)) {
+            jumpToArticle(articleNo);
+          }
+          return;
+        }
+
+        const clearBtn = event.target.closest("[data-clear-all]");
+        if (clearBtn) {
+          resetFilters(true);
+        }
+      });
+    }
+
+    function init() {
+      buildPersonaButtons();
+      buildPartPills();
+      buildPartSelect();
+      bindEvents();
+      render(false);
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+{
+  "name": "NYAN.AI Track 7 - Agentic Dispute Triage",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "nyan-ai-dispute-triage",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook - Intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const payload = $json.body ?? $json;\nconst input = typeof payload.input === 'string' ? payload.input.trim() : '';\nconst evidenceItems = Array.isArray(payload.evidenceItems) ? payload.evidenceItems : [];\n\nif (!input) {\n  return {\n    valid: false,\n    error: 'input is required',\n    received: payload\n  };\n}\n\nreturn {\n  valid: true,\n  requestId: payload.requestId ?? `req-${Date.now()}`,\n  input,\n  evidenceItems,\n  amountInvolved: payload.amountInvolved ?? null,\n  incidentDate: payload.incidentDate ?? null\n};"
+      },
+      "id": "2",
+      "name": "Normalize + Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json.valid}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "3",
+      "name": "Valid Request?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'error', message: $json.error, hint: 'Send: input, evidenceItems[], amountInvolved?, incidentDate?' } }}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "4",
+      "name": "Respond 400",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        930,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/fight/intake",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Cookie",
+              "value": "next-auth.session-token={{$env.NYAN_SESSION_TOKEN}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { input: $json.input, evidenceItems: $json.evidenceItems, amountInvolved: $json.amountInvolved, incidentDate: $json.incidentDate } }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "5",
+      "name": "NYAN API - Intake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        930,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.status}}",
+              "operation": "equal",
+              "value2": "needs_clarification"
+            }
+          ]
+        }
+      },
+      "id": "6",
+      "name": "Needs Clarification?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1160,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'needs_clarification', clarifyingQuestions: $json.clarifyingQuestions ?? [], nextStep: 'Resubmit with answers.' } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "7",
+      "name": "Respond Clarification",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1390,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/fight/analyse",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Cookie",
+              "value": "next-auth.session-token={{$env.NYAN_SESSION_TOKEN}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { disputeId: $json.disputeId } }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "8",
+      "name": "NYAN API - Analyse",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1390,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.disputeRecord?.successProbability ?? 0 }}",
+              "operation": "smaller",
+              "value2": 0.5
+            }
+          ]
+        }
+      },
+      "id": "9",
+      "name": "Low Success Probability?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1620,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "status",
+              "value": "high_risk_case",
+              "type": "string"
+            },
+            {
+              "name": "probability",
+              "value": "={{ $json.disputeRecord?.successProbability ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "name": "recommendation",
+              "value": "Immediate human legal review recommended before drafting.",
+              "type": "string"
+            },
+            {
+              "name": "disputeRecord",
+              "value": "={{$json.disputeRecord}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "10",
+      "name": "Build High-Risk Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1850,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "status",
+              "value": "ready_for_document_generation",
+              "type": "string"
+            },
+            {
+              "name": "probability",
+              "value": "={{ $json.disputeRecord?.successProbability ?? 0 }}",
+              "type": "number"
+            },
+            {
+              "name": "recommendation",
+              "value": "Proceed to document generation and adversarial review stage.",
+              "type": "string"
+            },
+            {
+              "name": "disputeRecord",
+              "value": "={{$json.disputeRecord}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "11",
+      "name": "Build Standard Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1850,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json}}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "12",
+      "name": "Respond Final (High-Risk)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        2090,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json}}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "13",
+      "name": "Respond Final (Standard)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        2090,
+        660
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook - Intake": {
+      "main": [
+        [
+          {
+            "node": "Normalize + Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize + Validate": {
+      "main": [
+        [
+          {
+            "node": "Valid Request?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valid Request?": {
+      "main": [
+        [
+          {
+            "node": "NYAN API - Intake",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond 400",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NYAN API - Intake": {
+      "main": [
+        [
+          {
+            "node": "Needs Clarification?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Needs Clarification?": {
+      "main": [
+        [
+          {
+            "node": "Respond Clarification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NYAN API - Analyse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NYAN API - Analyse": {
+      "main": [
+        [
+          {
+            "node": "Low Success Probability?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Low Success Probability?": {
+      "main": [
+        [
+          {
+            "node": "Build High-Risk Output",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Standard Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build High-Risk Output": {
+      "main": [
+        [
+          {
+            "node": "Respond Final (High-Risk)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Standard Output": {
+      "main": [
+        [
+          {
+            "node": "Respond Final (Standard)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "versionId": "1"
+}

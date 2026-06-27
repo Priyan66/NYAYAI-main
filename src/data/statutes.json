@@ -1,0 +1,74 @@
+{
+  "consumer": {
+    "category": "consumer",
+    "actName": "Consumer Protection Act, 2019",
+    "relevantSections": ["Section 2(7)", "Section 35", "Section 38", "Section 39"],
+    "recommendedForum": "District Consumer Disputes Redressal Commission",
+    "limitationPeriodDays": 730,
+    "filingFeeINR": 200,
+    "avgResolutionDays": 90
+  },
+  "tenancy": {
+    "category": "tenancy",
+    "actName": "Transfer of Property Act, 1882 and applicable State Rent Control Act",
+    "relevantSections": ["Section 105", "Section 108", "Section 111", "Section 116"],
+    "recommendedForum": "Rent Controller / Civil Court",
+    "limitationPeriodDays": 1095,
+    "filingFeeINR": 500,
+    "avgResolutionDays": 180
+  },
+  "employment": {
+    "category": "employment",
+    "actName": "Payment of Wages Act, 1936 and Industrial Disputes Act, 1947",
+    "relevantSections": ["Section 3", "Section 7", "Section 15", "Section 20 of Payment of Wages Act, 1936"],
+    "recommendedForum": "Payment of Wages Authority / Labour Court",
+    "limitationPeriodDays": 365,
+    "filingFeeINR": 0,
+    "avgResolutionDays": 60
+  },
+  "property": {
+    "category": "property",
+    "actName": "Transfer of Property Act, 1882",
+    "relevantSections": ["Section 54", "Section 55", "Section 58", "Section 100"],
+    "recommendedForum": "Civil Court (District Court)",
+    "limitationPeriodDays": 1095,
+    "filingFeeINR": "1% of property value (minimum INR 1000)",
+    "avgResolutionDays": 365
+  },
+  "family": {
+    "category": "family",
+    "actName": "Hindu Marriage Act, 1955 / Special Marriage Act, 1954",
+    "relevantSections": ["Section 13", "Section 24", "Section 25", "Section 26"],
+    "recommendedForum": "Family Court",
+    "limitationPeriodDays": 1095,
+    "filingFeeINR": 500,
+    "avgResolutionDays": 180
+  },
+  "contract": {
+    "category": "contract",
+    "actName": "Indian Contract Act, 1872",
+    "relevantSections": ["Section 73", "Section 74", "Section 39", "Section 55"],
+    "recommendedForum": "Civil Court / MSME Samadhaan Portal",
+    "limitationPeriodDays": 1095,
+    "filingFeeINR": "1% of claim amount (minimum INR 1000)",
+    "avgResolutionDays": 180
+  },
+  "debt_recovery": {
+    "category": "debt_recovery",
+    "actName": "Recovery of Debts and Bankruptcy Act, 1993",
+    "relevantSections": ["Section 19", "Section 22", "Section 25", "Section 30"],
+    "recommendedForum": "Debt Recovery Tribunal (DRT)",
+    "limitationPeriodDays": 1095,
+    "filingFeeINR": "1% of claim amount",
+    "avgResolutionDays": 120
+  },
+  "harassment": {
+    "category": "harassment",
+    "actName": "Indian Penal Code Sections 354, 509 / Bharatiya Nyaya Sanhita, 2023",
+    "relevantSections": ["Section 354", "Section 354A", "Section 509", "Section 503"],
+    "recommendedForum": "Police Station (FIR) / Judicial Magistrate Court",
+    "limitationPeriodDays": 90,
+    "filingFeeINR": 0,
+    "avgResolutionDays": 30
+  }
+}
