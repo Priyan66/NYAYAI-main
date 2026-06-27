@@ -2,23 +2,14 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from './prisma';
-import { scryptSync, randomBytes, timingSafeEqual } from 'crypto';
-
-const SALT_LENGTH = 16;
-const KEY_LENGTH = 64;
+import bcrypt from 'bcryptjs';
 
 export function hashPassword(password: string): string {
-  const salt = randomBytes(SALT_LENGTH).toString('hex');
-  const hash = scryptSync(password, salt, KEY_LENGTH).toString('hex');
-  return `${salt}:${hash}`;
+  return bcrypt.hashSync(password, 12);
 }
 
 export function verifyPassword(password: string, stored: string): boolean {
-  const [salt, hash] = stored.split(':');
-  if (!salt || !hash) return false;
-  const hashBuffer = Buffer.from(hash, 'hex');
-  const derivedKey = scryptSync(password, salt, KEY_LENGTH);
-  return timingSafeEqual(hashBuffer, derivedKey);
+  return bcrypt.compareSync(password, stored);
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
