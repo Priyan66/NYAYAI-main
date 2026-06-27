@@ -13,6 +13,7 @@ export function verifyPassword(password: string, stored: string): boolean {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   providers: [
     CredentialsProvider({
       name: 'credentials',
