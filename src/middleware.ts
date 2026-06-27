@@ -1,6 +1,9 @@
+// src/middleware.ts
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+
+// 👇 Single config – includes both runtime and matcher
 export const config = {
   runtime: 'nodejs',      // forces Node.js (default is 'edge')
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
@@ -27,7 +30,3 @@ export default async function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-};
